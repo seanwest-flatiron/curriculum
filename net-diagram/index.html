@@ -9,6 +9,11 @@
         padding: 0;
         font-family: "Courier New", Courier, monospace;
       }
+
+      #image-container {
+        display: flex;
+        justify-content: center;
+      }
       #networkDiagram {
         position: relative;
         margin: 5% 20%;
@@ -29,42 +34,48 @@
         width: 50px;
         height: 50px;
       }
-      #routerIcon {
-        width: 90px;
-        cursor: grab;
-        margin-left: 18%;
-        margin-top: 60px;
+
+      #container {
+        display: flex;
+        justify-content: center;
       }
-      #switchIcon1 {
-        width: 90px;
-        cursor: grab;
-        margin-top: 60px;
-      }
+      #routerIcon,
+      #switchIcon1,
       #switchIcon2 {
         width: 90px;
         cursor: grab;
+        padding: 20px;
         margin-top: 60px;
       }
 
       h2 {
-        position: relative;
+        display: flex;
+        justify-content: center;
         margin: -70px 20%;
         padding-bottom: 40px;
       }
     </style>
   </head>
   <body>
-    <div id="networkDiagram">
-      <div id="routerSpot" class="spot" style="top: 50px; left: 345px">?</div>
-      <div id="switchSpot1" class="spot" style="top: 185px; left: 345px">?</div>
-      <div id="switchSpot2" class="spot" style="top: 185px; left: 570px">?</div>
+    <div id="image-container">
+      <div id="networkDiagram">
+        <div id="routerSpot" class="spot" style="top: 50px; left: 345px">?</div>
+        <div id="switchSpot1" class="spot" style="top: 185px; left: 345px">
+          ?
+        </div>
+        <div id="switchSpot2" class="spot" style="top: 185px; left: 570px">
+          ?
+        </div>
+      </div>
     </div>
 
     <br /><br />
     <h2>Drag these icons to the right place</h2>
-    <img src="router.png" id="routerIcon" draggable="true" />
-    <img src="switch.png" id="switchIcon1" draggable="true" />
-    <img src="switch.png" id="switchIcon2" draggable="true" />
+    <div id="container">
+      <img src="router.png" id="routerIcon" draggable="true" />
+      <img src="switch.png" id="switchIcon1" draggable="true" />
+      <img src="switch.png" id="switchIcon2" draggable="true" />
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
     <script>
