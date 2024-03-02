@@ -1,127 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Network Diagram Interactive Widget</title>
-<style>
-  #networkDiagram {
-    position: relative;
-    width: 600px;
-    height: 400px;
-    background: url('network-diagram.png') no-repeat center center;
-    background-size: cover;
-  }
-  .spot {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f0f0f0;
-    color: #000;
-    font-size: 20px;
-    font-weight: bold;
-    position: absolute;
-    width: 50px;
-    height: 50px;
-  }
-  #routerIcon, #switchIcon1, #switchIcon2 {
-    width: 50px;
-    cursor: grab;
-  }
-</style>
-</head>
-<body>
-
-<div id="networkDiagram">
-  <div id="routerSpot" class="spot" style="top: 30px; left: 275px;">?</div>
-  <div id="switchSpot1" class="spot" style="top: 140px; left: 275px;">?</div>
-  <div id="switchSpot2" class="spot" style="top: 140px; left: 445px;">?</div>
-</div>
-
-<br><br>
-<h3>Drag these icons to the right place</h3>
-<img src="router-icon.png" id="routerIcon" draggable="true">
-<img src="switch-icon.png" id="switchIcon1" draggable="true">
-<img src="switch-icon.png" id="switchIcon2" draggable="true">
-
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  let draggedItem = null;
-  let placements = { routerSpot: false, switchSpots: 0 };
-
-  function handleDragStart(e) {
-    draggedItem = this;
-    e.dataTransfer.effectAllowed = 'move';
-  }
-
-  function handleDragOver(e) {
-    if (e.preventDefault) {
-      e.preventDefault();
-    }
-    e.dataTransfer.dropEffect = 'move';
-    return false;
-  }
-
-  function handleDrop(e) {
-    if (e.stopPropagation) {
-      e.stopPropagation();
-    }
-
-    const isRouterSpot = this.id === 'routerSpot' && draggedItem.id === 'routerIcon';
-    const isSwitchSpot = (this.id === 'switchSpot1' || this.id === 'switchSpot2') && draggedItem.id.startsWith('switchIcon');
-
-    if (isRouterSpot || isSwitchSpot) {
-      this.style.backgroundColor = "transparent";
-      this.innerHTML = ''; // Clear the question mark
-      draggedItem.style.position = 'absolute';
-      draggedItem.style.left = '0px';
-      draggedItem.style.top = '0px';
-      this.appendChild(draggedItem);
-
-      // Update placement tracking
-      if (isRouterSpot) placements.routerSpot = true;
-      if (isSwitchSpot) placements.switchSpots += 1;
-
-      // Check if all items are correctly placed
-      if (placements.routerSpot && placements.switchSpots === 2) {
-        triggerConfetti();
+  <head>
+    <meta charset="UTF-8" />
+    <title>Network Diagram Interactive Widget</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Courier New", Courier, monospace;
       }
-    } else {
-      alert('This item does not belong here.');
-    }
+      #networkDiagram {
+        position: relative;
+        margin: 5% 20%;
+        width: 700px;
+        height: 500px;
+        background: url("NWD.png") no-repeat center center;
+        background-size: cover;
+      }
+      .spot {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f0f0f0;
+        color: #000;
+        font-size: 20px;
+        font-weight: bold;
+        position: absolute;
+        width: 50px;
+        height: 50px;
+      }
+      #routerIcon {
+        width: 90px;
+        cursor: grab;
+        margin-left: 18%;
+        margin-top: 60px;
+      }
+      #switchIcon1 {
+        width: 90px;
+        cursor: grab;
+        margin-top: 60px;
+      }
+      #switchIcon2 {
+        width: 90px;
+        cursor: grab;
+        margin-top: 60px;
+      }
 
-    return false;
-  }
+      h2 {
+        position: relative;
+        margin: -70px 20%;
+        padding-bottom: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="networkDiagram">
+      <div id="routerSpot" class="spot" style="top: 50px; left: 345px">?</div>
+      <div id="switchSpot1" class="spot" style="top: 185px; left: 345px">?</div>
+      <div id="switchSpot2" class="spot" style="top: 185px; left: 570px">?</div>
+    </div>
 
-function triggerConfetti() {
-    const networkDiagram = document.getElementById('networkDiagram');
-    const rect = networkDiagram.getBoundingClientRect(); // Get the position and size of the networkDiagram
+    <br /><br />
+    <h2>Drag these icons to the right place</h2>
+    <img src="router.png" id="routerIcon" draggable="true" />
+    <img src="switch.png" id="switchIcon1" draggable="true" />
+    <img src="switch.png" id="switchIcon2" draggable="true" />
 
-    confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: {
-            x: (rect.left + rect.right) / 2 / window.innerWidth,
-            y: (rect.top + rect.bottom) / 1.5 / window.innerHeight
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        let draggedItem = null;
+        let placements = { routerSpot: false, switchSpots: 0 };
+
+        function handleDragStart(e) {
+          draggedItem = this;
+          e.dataTransfer.effectAllowed = "move";
         }
-    });
-}
 
+        function handleDragOver(e) {
+          if (e.preventDefault) {
+            e.preventDefault();
+          }
+          e.dataTransfer.dropEffect = "move";
+          return false;
+        }
 
-  let items = [document.getElementById('routerIcon'), document.getElementById('switchIcon1'), document.getElementById('switchIcon2')];
-  let spots = [document.getElementById('routerSpot'), document.getElementById('switchSpot1'), document.getElementById('switchSpot2')];
+        function handleDrop(e) {
+          if (e.stopPropagation) {
+            e.stopPropagation();
+          }
 
-  items.forEach(function(item) {
-    item.addEventListener('dragstart', handleDragStart, false);
-  });
+          const isRouterSpot =
+            this.id === "routerSpot" && draggedItem.id === "routerIcon";
+          const isSwitchSpot =
+            (this.id === "switchSpot1" || this.id === "switchSpot2") &&
+            draggedItem.id.startsWith("switchIcon");
 
-  spots.forEach(function(spot) {
-    spot.addEventListener('dragover', handleDragOver, false);
-    spot.addEventListener('drop', handleDrop, false);
-  });
-});
-</script>
+          if (isRouterSpot || isSwitchSpot) {
+            this.style.backgroundColor = "transparent";
+            this.innerHTML = ""; // Clear the question mark
+            draggedItem.style.position = "absolute";
+            draggedItem.style.left = "-25px";
+            draggedItem.style.top = "-75px";
+            this.appendChild(draggedItem);
 
-</body>
+            // Update placement tracking
+            if (isRouterSpot) placements.routerSpot = true;
+            if (isSwitchSpot) placements.switchSpots += 1;
+
+            // Check if all items are correctly placed
+            if (placements.routerSpot && placements.switchSpots === 2) {
+              triggerConfetti();
+            }
+          } else {
+            alert("This item does not belong here.");
+          }
+
+          return false;
+        }
+
+        function triggerConfetti() {
+          const networkDiagram = document.getElementById("networkDiagram");
+          const rect = networkDiagram.getBoundingClientRect(); // Get the position and size of the networkDiagram
+
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: {
+              x: (rect.left + rect.right) / 2 / window.innerWidth,
+              y: (rect.top + rect.bottom) / 1.5 / window.innerHeight,
+            },
+          });
+        }
+
+        let items = [
+          document.getElementById("routerIcon"),
+          document.getElementById("switchIcon1"),
+          document.getElementById("switchIcon2"),
+        ];
+        let spots = [
+          document.getElementById("routerSpot"),
+          document.getElementById("switchSpot1"),
+          document.getElementById("switchSpot2"),
+        ];
+
+        items.forEach(function (item) {
+          item.addEventListener("dragstart", handleDragStart, false);
+        });
+
+        spots.forEach(function (spot) {
+          spot.addEventListener("dragover", handleDragOver, false);
+          spot.addEventListener("drop", handleDrop, false);
+        });
+      });
+    </script>
+  </body>
 </html>
-
