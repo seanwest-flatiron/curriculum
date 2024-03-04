@@ -10,15 +10,12 @@
         font-family: "Courier New", Courier, monospace;
       }
 
-      #image-container {
-        display: flex;
-        justify-content: center;
-      }
       #networkDiagram {
+        margin-top: 0px;
+        margin-left: 0px;
         position: relative;
-        margin: 5% 20%;
-        width: 700px;
-        height: 500px;
+        width: 600px;
+        height: 420px;
         background: url("NWD.png") no-repeat center center;
         background-size: cover;
       }
@@ -45,37 +42,41 @@
         width: 90px;
         cursor: grab;
         padding: 20px;
-        margin-top: 60px;
+        margin-left: 25px;
       }
 
       h2 {
-        display: flex;
-        justify-content: center;
-        margin: -70px 20%;
-        padding-bottom: 40px;
+        margin-left: 25px;
+      }
+      #routerSpot {
+        top: 34px;
+        left: 294px;
+      }
+      #switchSpot1 {
+        top: 154px;
+        left: 293px;
+      }
+      #switchSpot2 {
+        top: 154px;
+        left: 484px;
       }
     </style>
   </head>
   <body>
-    <div id="image-container">
       <div id="networkDiagram">
-        <div id="routerSpot" class="spot" style="top: 50px; left: 345px">?</div>
-        <div id="switchSpot1" class="spot" style="top: 185px; left: 345px">
+        <div id="routerSpot" class="spot">?</div>
+        <div id="switchSpot1" class="spot">
           ?
         </div>
-        <div id="switchSpot2" class="spot" style="top: 185px; left: 570px">
+        <div id="switchSpot2" class="spot">
           ?
         </div>
       </div>
-    </div>
 
-    <br /><br />
     <h2>Drag these icons to the right place</h2>
-    <div id="container">
       <img src="router.png" id="routerIcon" draggable="true" />
       <img src="switch.png" id="switchIcon1" draggable="true" />
       <img src="switch.png" id="switchIcon2" draggable="true" />
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
     <script>
@@ -111,8 +112,7 @@
             this.style.backgroundColor = "transparent";
             this.innerHTML = ""; // Clear the question mark
             draggedItem.style.position = "absolute";
-            draggedItem.style.left = "-35px";
-            draggedItem.style.top = "-95px";
+            draggedItem.style['margin-left'] = "0px";
             this.appendChild(draggedItem);
 
             // Update placement tracking
